@@ -5,8 +5,12 @@ class ClubsModel {
 
   public async getAllModel() {
     const clubs = await this._clubsModel.findAll({ raw: true });
-    console.log(clubs);
     return clubs;
+  }
+
+  public async getByIdModel(id: number) {
+    const club = await this._clubsModel.findOne({ raw: true, where: { id } });
+    return club;
   }
 }
 
