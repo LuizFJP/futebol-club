@@ -5,6 +5,6 @@ import { verifyPassword, verifyEmail } from '../utils/validations';
 const route = Router();
 
 route.post('/', verifyPassword, verifyEmail, Login.login);
-// route.get('/validate', Login.validateLogin);
+route.get('/validate', Login.validateLogin);
 
 export default route;
