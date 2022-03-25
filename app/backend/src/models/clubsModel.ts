@@ -4,7 +4,8 @@ class ClubsModel {
   private _clubsModel = Clubs;
 
   public async getAllModel() {
-    const clubs = this._clubsModel.findAll();
+    const clubs = await this._clubsModel.findAll({ raw: true });
+    console.log(clubs);
     return clubs;
   }
 }

@@ -1,11 +1,12 @@
+import { Request, Response } from 'express';
 import clubsService from '../services/clubsService';
 
 class Clubs {
   static _ClubService = clubsService;
 
-  public static getAllClubs() {
-    const clubs = this._ClubService;
-    return clubs;
+  public static async getAllClubs(_req: Request, res: Response) {
+    const clubs = await clubsService.getAllClub();
+    return res.status(200).json(clubs);
   }
 }
 

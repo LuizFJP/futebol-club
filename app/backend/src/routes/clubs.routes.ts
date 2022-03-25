@@ -4,3 +4,6 @@ import Clubs from '../controllers/clubsController';
 const route = Router();
 
 route.get('/', Clubs.getAllClubs);
+// route.get('/:id', Clubs.)
+
+export default route;
