@@ -54,9 +54,6 @@ class LoginService {
     const user = await this._UserModel.loginModel(email);
     if (!user) return { message: INCORRECT_EMAIL_PASSWORD, code: 401 };
     const token = await generateKey(user);
-    console.log(user.role);
-    console.log(token);
-    console.log(authorization);
     if (token === authorization) return user.role;
   }
 }
