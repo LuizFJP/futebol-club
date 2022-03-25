@@ -10,6 +10,7 @@ class Clubs {
   }
 
   public static async getById(req: Request, res: Response) {
+    console.log('entrou');
     const { id } = req.params;
     const club = await clubsService.getByIdService(JSON.parse(id));
     return res.status(200).json(club);
