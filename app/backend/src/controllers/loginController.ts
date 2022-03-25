@@ -11,7 +11,7 @@ class Login {
     const user = await LoginService.loginService(email, password) as IUsera;
     const { token } = user;
     req.headers.authorization = token;
-    console.log(req.headers.authorization);
+    console.log(req.headers.authorization );
     return res.status(200).json(user);
   }
 

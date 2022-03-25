@@ -5,6 +5,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import Users from '../database/models/Users';
 import generateToken from '../utils/generateToken';
+import allClubs from '../utils/mocks/allClubs';
 
 import { Response } from 'superagent';
 
@@ -93,5 +94,28 @@ describe('Testing /login/validate', () => {
     it('Test if status is 401', () => {
       expect(chaiHttpResponse).to.be.status(200);
     });
+  })
+})
+
+describe('Testing /clubs', () => {
+  let chaiHttpResponse: Response;
+  describe('get all clubs', async () => {
+    chaiHttpResponse = await chai.request(app).get('/clubs')
+    .set('content-type', 'application/json');
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(allClubs);
+      expect(chaiHttpResponse).to.have.status(200);
+    })
+  })
+
+  describe('get a club by id', async () => {
+    chaiHttpResponse = await chai.request(app).get('/clubs/5')
+    .set('content-type', 'application/json');
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(allClubs[4]);
+      expect(chaiHttpResponse).to.have.status(200);
+    })
   })
 })
