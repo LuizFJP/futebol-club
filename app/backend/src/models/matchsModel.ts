@@ -1,8 +1,10 @@
 import Match from '../database/models/Matchs';
 
 class MatchsModel {
+  private _Match = Match;
+
   public async getAllMatchsModel() {
-    const matchs = await Match.findAll({ raw: true });
+    const matchs = await this._Match.findAll({ raw: true });
     return matchs;
   }
 }
