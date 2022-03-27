@@ -6,3 +6,5 @@ class MatchsModel {
     return matchs;
   }
 }
+
+export default new MatchsModel();
