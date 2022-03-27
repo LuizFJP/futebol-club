@@ -1,4 +1,3 @@
-import { Op, Sequelize } from 'sequelize';
 import Club from '../database/models/Clubs';
 import Match from '../database/models/Matchs';
 
@@ -8,6 +7,24 @@ class MatchsModel {
   private _true = true;
 
   private _false = false;
+
+  public async getByProgressModel(inProgress: boolean) {
+    const matchs = await this._Match.findAll({
+      where: { inProgress },
+      include: [{ model: Club,
+        as: 'homeClub',
+        attributes: { exclude: ['id'] },
+      },
+      {
+        model: Club,
+        as: 'awayClub',
+        attributes: { exclude: ['id'] },
+      }],
+      nest: true,
+    });
+
+    return matchs;
+  }
 
   public async getAllMatchsModel() {
     const matchs = await this._Match.findAll({
