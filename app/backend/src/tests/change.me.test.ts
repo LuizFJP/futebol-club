@@ -6,8 +6,11 @@ import { app } from '../app';
 import Users from '../database/models/Users';
 import generateToken from '../utils/generateToken';
 import allClubs from '../utils/mocks/allClubs';
+import inProgressTrue from '../utils/mocks/inProgressTrue';
+import inProgressFalse from '../utils/mocks/inProgressFalse';
 
 import { Response } from 'superagent';
+import allMatchs from '../utils/mocks/allMatchs';
 
 chai.use(chaiHttp);
 
@@ -106,7 +109,7 @@ describe('Testing /clubs', () => {
     it('When is success', () => {
       expect(chaiHttpResponse).to.be.equal(allClubs);
       expect(chaiHttpResponse).to.have.status(200);
-    })
+    });
   })
 
   describe('get a club by id', async () => {
@@ -115,6 +118,53 @@ describe('Testing /clubs', () => {
 
     it('When is success', () => {
       expect(chaiHttpResponse).to.be.equal(allClubs[4]);
+      expect(chaiHttpResponse).to.have.status(200);
+    })
+  })
+})
+
+describe('/matchs route', () => {
+  let chaiHttpResponse: Response;
+  describe('return a list of matchs with success', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/matchs')
+    .set('content-type', 'application/json');
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(allMatchs);
+      expect(chaiHttpResponse).to.have.status(200);
+    });
+  });
+  describe('return a list of matchs by query string in progress when is false', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/matchs')
+    .set('content-type', 'application/json')
+    .query({ inProgress: false });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(allMatchs);
+      expect(chaiHttpResponse).to.have.status(200);
+    });
+  });
+  describe('return a list of matchs by query string in progress when is true', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/matchs')
+    .set('content-type', 'application/json')
+    .query({ inProgress: true });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(inProgressTrue);
+      expect(chaiHttpResponse).to.have.status(200);
+    })
+  })
+  describe('return a list of matchs by query string in progress when is false', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .get('/matchs')
+    .set('content-type', 'application/json')
+    .query({ inProgress: false });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.equal(inProgressFalse);
       expect(chaiHttpResponse).to.have.status(200);
     })
   })
