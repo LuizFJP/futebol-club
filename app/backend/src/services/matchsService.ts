@@ -1,4 +1,5 @@
 import { ParsedQs } from 'qs';
+import { IMatchs } from '../utils/interfaces';
 import matchsModel from '../models/matchsModel';
 
 class MatchsService {
@@ -13,6 +14,11 @@ class MatchsService {
   public async getAllMatchsService() {
     const matchs = await this._MatchModel.getAllMatchsModel();
     return matchs;
+  }
+
+  public async createMatch(payload: IMatchs) {
+    const matchCreated = await this._MatchModel.createMatch(payload);
+    return matchCreated;
   }
 }
 

@@ -2,16 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 import Club from './Clubs';
 
-type MatchAttributes = {
-  id: number,
-  homeTeam: number,
-  homeTeamGoals: number,
-  awayTeam: number,
-  awayTeamGoals: number,
-  inProgress: number,
-};
-
-class Match extends Model<MatchAttributes> {
+class Match extends Model {
   public id: number;
 
   public homeTeam: number;

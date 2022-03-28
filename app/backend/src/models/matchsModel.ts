@@ -1,3 +1,4 @@
+import { IMatchs } from '../utils/interfaces';
 import Club from '../database/models/Clubs';
 import Match from '../database/models/Matchs';
 
@@ -40,6 +41,19 @@ class MatchsModel {
       }],
     });
     return matchs;
+  }
+
+  public async createMatch(payload: IMatchs) {
+    const { homeTeam, homeTeamGoals, awayTeam, awayTeamGoals, inProgress } = payload;
+    const id = await this._Match.create(payload);
+    const result = {
+      id: id.id,
+      homeTeam,
+      homeTeamGoals,
+      awayTeam,
+      awayTeamGoals,
+      inProgress };
+    return result;
   }
 }
 

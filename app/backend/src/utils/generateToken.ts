@@ -1,6 +1,6 @@
 import * as JWT from 'jsonwebtoken';
 import * as fs from 'fs';
-import IUser from './interfaces';
+import { IUser } from './interfaces';
 
 export default async (payload:IUser) => {
   const hardKey = await fs.readFileSync('./jwt.evaluation.key', 'utf8');

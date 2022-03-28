@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ParsedQs } from 'qs';
+import { IMatchs } from '../utils/interfaces';
 import matchsService from '../services/matchsService';
 
 class MatchsController {
@@ -18,6 +19,11 @@ class MatchsController {
     }
 
     return res.status(200).json(matchs);
+  }
+
+  public static async createMatch(req: Request, res: Response) {
+    const id = await matchsService.createMatch(req.body as IMatchs);
+    return res.status(201).json(id);
   }
 }
 
