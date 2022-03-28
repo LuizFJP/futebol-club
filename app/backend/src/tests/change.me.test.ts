@@ -210,4 +210,44 @@ describe('/matchs route', () => {
       expect(chaiHttpResponse[0].id).to.equal(42);
     })
   })
+
+  describe('It\'s not possible to save a match when is insert the same code for both clubs', async () => {
+    let chaiHttpResponse: Response;
+
+    chaiHttpResponse = await chai.request(app)
+    .post('/matchs')
+    .set('content-type', 'application/json')
+    .query({
+      "homeTeam": 16,
+      "awayTeam": 16,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).status(400);
+      expect(chaiHttpResponse).to.be('It is not possible to create a match with two equal teams');
+    })
+  })
+
+  describe('It\'s not possible to save a match that doesn\'t exist in database', async () => {
+    let chaiHttpResponse: Response;
+
+    chaiHttpResponse = await chai.request(app)
+    .post('/matchs')
+    .set('content-type', 'application/json')
+    .query({
+      "homeTeam": 513,
+      "awayTeam": 16,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).status(400);
+      expect(chaiHttpResponse).to.be('There is no team with such id!');
+    });
+  })
 })
