@@ -193,4 +193,21 @@ describe('/matchs route', () => {
     })
   })
   
+  describe('Save matchs in /matchs/:id/finish route with inProgress as false value', async () => {
+    let chaiHttpResponse: Response;
+
+    chaiHttpResponse = await chai.request(app)
+    .put('/matchs/41/finish')
+    .set('content-type', 'application/json');
+
+    chaiHttpResponse = await chai.request(app)
+    .get('/matchs')
+    .set('content-type', 'application/json')
+    .query({ inProgress: false });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).status(201);
+      expect(chaiHttpResponse[0].id).to.equal(42);
+    })
+  })
 })
