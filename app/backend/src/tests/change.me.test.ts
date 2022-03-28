@@ -168,4 +168,29 @@ describe('/matchs route', () => {
       expect(chaiHttpResponse).to.have.status(200);
     })
   })
+  describe('It\'s possible to save a match with inProgress status equal to true', async () => {
+    let chaiHttpResponse: Response;
+
+    chaiHttpResponse = await chai.request(app)
+    .post('/matchs')
+    .set('content-type', 'application/json')
+    .query({
+      "homeTeam": 16,
+      "awayTeam": 8,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
+
+    it('When is success', () => {
+      expect(chaiHttpResponse).to.be.an('object');
+      expect(chaiHttpResponse).status(201);
+      expect(chaiHttpResponse.body.homeTeam).to.equal(1);
+      expect(chaiHttpResponse.body.homeTeamGoals).to.equal(16);
+      expect(chaiHttpResponse.body.awayTeam).to.equal(8);
+      expect(chaiHttpResponse.body.awayTeamGoals).to.equal(2);
+      expect(chaiHttpResponse.body.inProgress).to.equal(true);
+    })
+  })
+  
 })
