@@ -25,6 +25,12 @@ class MatchsController {
     const id = await matchsService.createMatch(req.body as IMatchs);
     return res.status(201).json(id);
   }
+
+  public static async updateInProgressFalse(req: Request, res: Response) {
+    const { id } = req.body;
+    const status = await matchsService.updateInProgressFalse(id);
+    if(status) return res.status(201);
+  }
 }
 
 export default MatchsController;
