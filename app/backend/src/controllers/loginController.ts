@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
 import LoginService, { IUsera } from '../services/loginService';
-import getEmailFromToken from '../utils/getEmailFromToken';
 
 class Login {
   public Service = LoginService;
@@ -15,10 +14,10 @@ class Login {
   }
 
   public static async validateLogin(req: Request, res: Response) {
-    const { authorization } = req.headers;
-    if (!authorization) return 'error';
-    const email = await getEmailFromToken(authorization);
-    const role = await LoginService.loginValidateService(email, authorization);
+    const { authorization: token } = req.headers;
+    if (!token) return res.status(404).json('Token not found');
+    const role = await LoginService.loginValidateService(token);
+
     return res.status(200).json(role);
   }
 }

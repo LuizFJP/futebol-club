@@ -30,8 +30,8 @@ class MatchsController {
 
   public static async updateInProgressFalse(req: Request, res: Response) {
     const { id } = req.params;
-    const status = await matchsService.updateInProgressFalse(id as string);
-    if (status) return res.status(201).json();
+    const team = await matchsService.updateInProgressFalse(id as string);
+    if (team) return res.status(200).json(team);
   }
 }
 

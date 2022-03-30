@@ -1,6 +1,7 @@
 import * as bcryptsjs from 'bcryptjs';
 import generateKey from '../utils/generateToken';
 import User from '../models/loginModel';
+import getEmailFromToken from '../utils/getEmailFromToken';
 
 const INCORRECT_EMAIL_PASSWORD = 'Incorrect email or password';
 
@@ -50,11 +51,12 @@ class LoginService {
     return result;
   }
 
-  public async loginValidateService(email: string, authorization: string) {
+  public async loginValidateService(authorization: string) {
+    const email = await getEmailFromToken(authorization);
     const user = await this._UserModel.loginModel(email);
     if (!user) return { message: INCORRECT_EMAIL_PASSWORD, code: 401 };
-    const token = await generateKey(user);
-    if (token === authorization) return user.role;
+
+    return user.role;
   }
 }
 

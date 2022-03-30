@@ -1,15 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
 
-type UserAttributes = {
-  id: number,
-  username: string,
-  role: string,
-  email: string,
-  password: string,
-};
-
-class User extends Model<UserAttributes> {
+class User extends Model {
   public id: number;
 
   public username: string;

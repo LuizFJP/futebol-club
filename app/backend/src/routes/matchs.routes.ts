@@ -5,6 +5,6 @@ const route = Router();
 
 route.get('/', matchsController.getAllMatchs);
 route.post('/', matchsController.createMatch);
-route.put('/:id/finish', matchsController.updateInProgressFalse);
+route.patch('/:id/finish', matchsController.updateInProgressFalse);
 
 export default route;

@@ -8,9 +8,15 @@ import generateToken from '../utils/generateToken';
 import allClubs from '../utils/mocks/allClubs';
 import inProgressTrue from '../utils/mocks/inProgressTrue';
 import inProgressFalse from '../utils/mocks/inProgressFalse';
+import user from '../utils/mocks/functions';
 
 import { Response } from 'superagent';
 import allMatchs from '../utils/mocks/allMatchs';
+import Login from '../controllers/loginController';
+import User from '../database/models/Users';
+import { IUser } from '../utils/interfaces';
+
+
 
 chai.use(chaiHttp);
 
@@ -44,6 +50,19 @@ describe('Testing /login', () => {
     it('Receive a message when password has length less than 6', () => {
       expect(chaiHttpResponse).to.be.equal(PASSWORD_LESS_THAN_6);
     })
+  });
+  describe('Test when login is correct', async () => {
+    chaiHttpResponse = await chai.request(app).post('/login').send({
+      email: 'user@user.com',
+      password: 'secret_user'
+    })
+
+    it('Receive an information about login and token', () => {
+      expect(chaiHttpResponse.body.user.id).to.be.equal(2);
+      expect(chaiHttpResponse.body.user.username).to.be.equal('User');
+      expect(chaiHttpResponse.body.user.role).to.be.equal('user');
+      expect(chaiHttpResponse.body.user.email).to.be.equal('user@user.com');
+    })
   })
 });
 
@@ -61,7 +80,7 @@ describe('Testing /login/validate', () => {
     const wrongToken = 'token aleatório';
 
     const mockToken = generateToken(user);
-    chaiHttpResponse = await chai.request(app).get('/login/validatez')
+    chaiHttpResponse = await chai.request(app).get('/login/validate')
     .set('content-type', 'application/json')
     .set('authorization', wrongToken)
     .send({ email: user.email,
@@ -84,8 +103,9 @@ describe('Testing /login/validate', () => {
       password: 'senhaDificilima',
     };
   
+
     const mockToken = await generateToken(user);
-    chaiHttpResponse = await chai.request(app).get('/login/validatez')
+    chaiHttpResponse = await chai.request(app).get('/login/validate')
     .set('content-type', 'application/json')
     .set('authorization', mockToken)
     .send({ email: user.email,
@@ -139,7 +159,7 @@ describe('/matchs route', () => {
     chaiHttpResponse = await chai.request(app)
     .get('/matchs')
     .set('content-type', 'application/json')
-    .query({ inProgress: false });
+    .send({ inProgress: false });
 
     it('When is success', () => {
       expect(chaiHttpResponse).to.be.equal(allMatchs);
@@ -150,7 +170,7 @@ describe('/matchs route', () => {
     chaiHttpResponse = await chai.request(app)
     .get('/matchs')
     .set('content-type', 'application/json')
-    .query({ inProgress: true });
+    .send({ inProgress: true });
 
     it('When is success', () => {
       expect(chaiHttpResponse).to.be.equal(inProgressTrue);
@@ -161,7 +181,7 @@ describe('/matchs route', () => {
     chaiHttpResponse = await chai.request(app)
     .get('/matchs')
     .set('content-type', 'application/json')
-    .query({ inProgress: false });
+    .set({ inProgress: false });
 
     it('When is success', () => {
       expect(chaiHttpResponse).to.be.equal(inProgressFalse);
@@ -169,17 +189,16 @@ describe('/matchs route', () => {
     })
   })
   describe('It\'s possible to save a match with inProgress status equal to true', async () => {
-    let chaiHttpResponse: Response;
 
     chaiHttpResponse = await chai.request(app)
     .post('/matchs')
     .set('content-type', 'application/json')
-    .query({
-      "homeTeam": 16,
-      "awayTeam": 8,
-      "homeTeamGoals": 2,
-      "awayTeamGoals": 2,
-      "inProgress": true
+    .set({
+      homeTeam: 16,
+      awayTeam: 8,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true
     });
 
     it('When is success', () => {
@@ -193,36 +212,17 @@ describe('/matchs route', () => {
     })
   })
   
-  describe('Save matchs in /matchs/:id/finish route with inProgress as false value', async () => {
-    let chaiHttpResponse: Response;
-
-    chaiHttpResponse = await chai.request(app)
-    .put('/matchs/41/finish')
-    .set('content-type', 'application/json');
-
-    chaiHttpResponse = await chai.request(app)
-    .get('/matchs')
-    .set('content-type', 'application/json')
-    .query({ inProgress: false });
-
-    it('When is success', () => {
-      expect(chaiHttpResponse).status(201);
-      expect(chaiHttpResponse.body).to.be.empty;
-    })
-  })
-
   describe('It\'s not possible to save a match when is insert the same code for both clubs', async () => {
-    let chaiHttpResponse: Response;
 
     chaiHttpResponse = await chai.request(app)
     .post('/matchs')
     .set('content-type', 'application/json')
-    .query({
-      "homeTeam": 16,
-      "awayTeam": 16,
-      "homeTeamGoals": 2,
-      "awayTeamGoals": 2,
-      "inProgress": true
+    .send({
+      homeTeam: 16,
+      awayTeam: 16,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true
     });
 
     it('When is success', () => {
@@ -232,17 +232,16 @@ describe('/matchs route', () => {
   })
 
   describe('It\'s not possible to save a match that doesn\'t exist in database', async () => {
-    let chaiHttpResponse: Response;
 
     chaiHttpResponse = await chai.request(app)
     .post('/matchs')
     .set('content-type', 'application/json')
-    .query({
-      "homeTeam": 513,
-      "awayTeam": 16,
-      "homeTeamGoals": 2,
-      "awayTeamGoals": 2,
-      "inProgress": true
+    .send({
+      homeTeam: 513,
+      awayTeam: 16,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true
     });
 
     it('When is success', () => {
@@ -250,5 +249,31 @@ describe('/matchs route', () => {
       expect(chaiHttpResponse).to.be('There is no team with such id!');
     });
   })
-  
+})
+
+describe('Save matchs in /matchs/:id/finish route with inProgress as false value', async () => {
+  let chaiHttpResponse: Response;
+  let loginResponse: Response;
+
+  before(() => {
+    sinon.stub(User, 'findOne').resolves({id: 5, username: 'juninho', role: 'dev', email: 'tidev@hacker.com', password: 'cachorro'} as User)
+  });
+
+  after(() => {
+    (User.findOne as sinon.SinonStub).restore();
+  });
+
+  loginResponse = await chai.request(app).post('/login').send({ email: 'tidev@hacker.com', password: 'cachorro'});
+
+  const { token } = loginResponse.body;
+
+  chaiHttpResponse = await chai.request(app)
+  .patch('/matchs/49/finish')
+  .set('content-type', 'application/json')
+  .set('authorization', token);
+
+  it('When is success', () => {
+    expect(chaiHttpResponse).status(200);
+    expect(chaiHttpResponse.body).to.be.empty;
+  })
 })

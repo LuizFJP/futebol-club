@@ -29,8 +29,8 @@ class MatchsService {
   }
 
   public async updateInProgressFalse(id: string) {
-    const status = await this._MatchModel.updateInProgressFalse(id);
-    return status;
+    const team = await this._MatchModel.updateInProgressFalse(id);
+    return team;
   }
 }
 
