@@ -21,6 +21,10 @@ class MatchsService {
     return matchCreated;
   }
   
+  public async updateInProgressFalse(id: number) {
+   const status = await this._MatchModel.updateInProgressFalse(id);
+    return status;
+  }
 }
 
 export default new MatchsService();
