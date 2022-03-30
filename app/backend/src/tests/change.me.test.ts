@@ -207,7 +207,7 @@ describe('/matchs route', () => {
 
     it('When is success', () => {
       expect(chaiHttpResponse).status(201);
-      expect(chaiHttpResponse[0].id).to.equal(42);
+      expect(chaiHttpResponse.body).to.be.empty;
     })
   })
 
