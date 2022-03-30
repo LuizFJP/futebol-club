@@ -22,7 +22,9 @@ class MatchsController {
   }
 
   public static async createMatch(req: Request, res: Response) {
-    const id = await matchsService.createMatch(req.body as IMatchs);
+    const teste: IMatchs = req.body;
+    const id = await matchsService.createMatch(teste);
+    if (id.message) return res.status(id.code as number).json({ message: id.message as string });
     return res.status(201).json(id);
   }
 

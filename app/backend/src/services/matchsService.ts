@@ -16,7 +16,14 @@ class MatchsService {
     return matchs;
   }
 
-  public async createMatch(payload: IMatchs) {
+  public async createMatch(payload: IMatchs): Promise<IMatchs> {
+    const { homeTeam, awayTeam } = payload;
+    if (homeTeam === awayTeam) {
+      return {
+        message: 'It is not possible to create a match with two equal teams',
+        code: 400,
+      };
+    }
     const matchCreated = await this._MatchModel.createMatch(payload);
     return matchCreated;
   }
