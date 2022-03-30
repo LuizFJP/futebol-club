@@ -20,9 +20,9 @@ class MatchsService {
     const matchCreated = await this._MatchModel.createMatch(payload);
     return matchCreated;
   }
-  
-  public async updateInProgressFalse(id: number) {
-   const status = await this._MatchModel.updateInProgressFalse(id);
+
+  public async updateInProgressFalse(id: string) {
+    const status = await this._MatchModel.updateInProgressFalse(id);
     return status;
   }
 }

@@ -27,9 +27,9 @@ class MatchsController {
   }
 
   public static async updateInProgressFalse(req: Request, res: Response) {
-    const { id } = req.body;
-    const status = await matchsService.updateInProgressFalse(id);
-    if(status) return res.status(201);
+    const { id } = req.params;
+    const status = await matchsService.updateInProgressFalse(id as string);
+    if (status) return res.status(201).json();
   }
 }
 

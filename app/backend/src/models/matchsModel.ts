@@ -56,8 +56,8 @@ class MatchsModel {
     return result;
   }
 
-  public async updateInProgressFalse(id: number) {
-    await this._Match.update({ inProgress: true }, { where: { id }});
+  public async updateInProgressFalse(id: string) {
+    await this._Match.update({ inProgress: true }, { where: { id } });
     return true;
   }
 }
