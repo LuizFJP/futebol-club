@@ -20,6 +20,7 @@ class MatchsService {
     const matchCreated = await this._MatchModel.createMatch(payload);
     return matchCreated;
   }
+  
 }
 
 export default new MatchsService();

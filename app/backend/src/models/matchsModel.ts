@@ -55,6 +55,11 @@ class MatchsModel {
       inProgress };
     return result;
   }
+
+  public async updateInProgressFalse(id: number) {
+    await this._Match.update({ inProgress: true }, { where: { id }});
+    return true;
+  }
 }
 
 export default new MatchsModel();
