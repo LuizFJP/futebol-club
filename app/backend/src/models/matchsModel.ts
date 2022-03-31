@@ -60,6 +60,8 @@ class MatchsModel {
 
   public async updateGoals(id: string, homeTeamGoals: number, awayTeamGoals: number) {
     await this._Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    const team = await this._Match.findByPk(id);
+    return team;
   }
 }
 
