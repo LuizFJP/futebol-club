@@ -226,7 +226,7 @@ describe('/matchs route', () => {
     });
 
     it('When is success', () => {
-      expect(chaiHttpResponse).status(400);
+      expect(chaiHttpResponse).status(401);
       expect(chaiHttpResponse).to.be('It is not possible to create a match with two equal teams');
     })
   })

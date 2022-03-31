@@ -18,10 +18,11 @@ class MatchsService {
 
   public async createMatch(payload: IMatchs): Promise<IMatchs> {
     const { homeTeam, awayTeam } = payload;
+    console.log(typeof homeTeam, typeof awayTeam);
     if (homeTeam === awayTeam) {
       return {
         message: 'It is not possible to create a match with two equal teams',
-        code: 400,
+        code: 401,
       };
     }
     const matchCreated = await this._MatchModel.createMatch(payload);
