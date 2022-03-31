@@ -15,3 +15,8 @@ export interface IMatchs {
   message?: string,
   code?: number,
 }
+
+export interface IAllClubs {
+  id: number,
+  clubName: string
+}

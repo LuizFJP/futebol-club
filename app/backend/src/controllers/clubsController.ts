@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
-import clubsService from '../services/clubsService';
+import ClubsService from '../services/clubsService';
 
 class Clubs {
-  static _ClubService = clubsService;
+  static _ClubService = new ClubsService();
 
   public static async getAllClubs(_req: Request, res: Response) {
-    const clubs = await clubsService.getAllClub();
+    const clubs = await ClubsService.getAllClub();
     return res.status(200).json(clubs);
   }
 
   public static async getById(req: Request, res: Response) {
     const { id } = req.params;
-    const club = await clubsService.getByIdService(JSON.parse(id));
+    const club = await ClubsService.getByIdService(JSON.parse(id));
     return res.status(200).json(club);
   }
 }

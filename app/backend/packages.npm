@@ -1,2 +1,4 @@
 bcryptjs
 @types/bcryptjs
+shelljs
+@types/shelljs
