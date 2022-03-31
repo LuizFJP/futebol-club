@@ -35,10 +35,15 @@ class MatchsController {
   }
 
   public static async updateGoals(req: Request, res: Response) {
+    let team;
     const { homeTeamGoals, awayTeamGoals } = req.body;
-    // if (!homeTeamGoals && !awayTeamGoals) 
     const { id } = req.params;
-    const team = await matchsService.updateGoals(id, homeTeamGoals, awayTeamGoals);
+    if (!homeTeamGoals && !awayTeamGoals) {
+      team = await matchsService.updateInProgressFalse(id);
+    } else {
+      team = await matchsService.updateGoals(id, homeTeamGoals, awayTeamGoals);
+    }
+
     return res.status(200).json(team);
   }
 }
