@@ -1,9 +1,12 @@
 import { ParsedQs } from 'qs';
 import { IMatchs } from '../utils/interfaces';
 import matchsModel from '../models/matchsModel';
+import clubsModel from '../models/clubsModel';
 
 class MatchsService {
   private _MatchModel = matchsModel;
+
+  private _ClubModel = clubsModel;
 
   public async getByProgressService(inProgress: string | ParsedQs | string[] | ParsedQs[]) {
     const progress = await JSON.parse(await JSON.parse(await JSON.stringify(inProgress)));
@@ -18,7 +21,15 @@ class MatchsService {
 
   public async createMatch(payload: IMatchs): Promise<IMatchs> {
     const { homeTeam, awayTeam } = payload;
-    console.log(typeof homeTeam, typeof awayTeam);
+    const [home, away] = await Promise.all([homeTeam, awayTeam]
+      .map((id) => this._ClubModel.getByIdModel(id as number)));
+
+    if (!home || !away) {
+      return {
+        message: 'There is no team with such id!',
+        code: 401 };
+    }
+
     if (homeTeam === awayTeam) {
       return {
         message: 'It is not possible to create a match with two equal teams',

@@ -5,10 +5,6 @@ import Match from '../database/models/Matchs';
 class MatchsModel {
   private _Match = Match;
 
-  private _true = true;
-
-  private _false = false;
-
   public async getByProgressModel(inProgress: boolean) {
     const matchs = await this._Match.findAll({
       where: { inProgress },
@@ -58,7 +54,6 @@ class MatchsModel {
 
   public async updateInProgressFalse(id: string) {
     await this._Match.update({ inProgress: false }, { where: { id } });
-    
     const team = await this._Match.findByPk(id);
     return team;
   }

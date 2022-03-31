@@ -245,7 +245,7 @@ describe('/matchs route', () => {
     });
 
     it('When is success', () => {
-      expect(chaiHttpResponse).status(400);
+      expect(chaiHttpResponse).status(401);
       expect(chaiHttpResponse).to.be('There is no team with such id!');
     });
   })
