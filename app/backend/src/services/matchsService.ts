@@ -49,6 +49,11 @@ class MatchsService {
     const team = await this._MatchModel.updateGoals(id, homeTeamGoals, awayTeamGoals);
     return team;
   }
+
+  public async finishMatch(id: string) {
+    const team = await this._MatchModel.updateInProgressFalse(id);
+    return team;
+  }
 }
 
 export default new MatchsService();

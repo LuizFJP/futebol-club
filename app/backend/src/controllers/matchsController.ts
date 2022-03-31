@@ -36,6 +36,7 @@ class MatchsController {
 
   public static async updateGoals(req: Request, res: Response) {
     const { homeTeamGoals, awayTeamGoals } = req.body;
+    // if (!homeTeamGoals && !awayTeamGoals) 
     const { id } = req.params;
     const team = await matchsService.updateGoals(id, homeTeamGoals, awayTeamGoals);
     return res.status(200).json(team);
