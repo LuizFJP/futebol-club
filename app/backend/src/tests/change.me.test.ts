@@ -15,6 +15,7 @@ import allMatchs from '../utils/mocks/allMatchs';
 import Login from '../controllers/loginController';
 import User from '../database/models/Users';
 import { IUser } from '../utils/interfaces';
+import Match from '../database/models/Matchs';
 
 
 
@@ -275,5 +276,48 @@ describe('Save matchs in /matchs/:id/finish route with inProgress as false value
   it('When is success', () => {
     expect(chaiHttpResponse).status(200);
     expect(chaiHttpResponse.body).to.be.empty;
+  })
+})
+
+describe('routes /matchs:id', () => {
+  let chaiHttpResponse: Response;
+
+  beforeAll(() => {
+    sinon.stub(Match, 'create').resolves({ id: 500, homeTeam: 2, homeTeamGoals: 6, awayTeam: 7, awayTeamGoals: 9, inProgress: true} as Match);
+  })
+
+  afterAll(() => {
+    (User.create as sinon.SinonStub).restore()
+  })
+    describe('It\'s possible to update matchs in progress', async () => {
+
+    before(() => {
+      sinon.stub(Match, 'create').resolves({ id: 500, homeTeam: 2, homeTeamGoals: 6, awayTeam: 7, awayTeamGoals: 9, inProgress: false} as Match);
+    })
+
+    after(() => {
+      (User.create as sinon.SinonStub).restore()
+    })
+
+    chaiHttpResponse = await chai.request(app)
+    .patch('/matchs/500')
+    .set('content-type', 'application/json')
+    .send({ homeTeamGoals: 3, awayTeamGoals: 1});
+
+    it('is possible update number of goals while match is in progress', () => {
+      expect(chaiHttpResponse.body.homeTeamGoals).to.be.equal(3);
+      expect(chaiHttpResponse.body.awayTeamGoals).to.be.equal(1);
+      expect(chaiHttpResponse).status(200);
+    })
+  });
+  describe('It\'s possible to finish matchs', async () => {
+    chaiHttpResponse = await chai.request(app)
+    .patch('/matchs/500')
+    .set('content-type', 'application/json');
+
+    it('When is success', () => {
+      expect(chaiHttpResponse.body.inProgress).to.be.equal(true);
+      expect(chaiHttpResponse).status(200);
+    })
   })
 })
