@@ -63,30 +63,38 @@ describe('/matchs route success', () => {
       expect(chaiHttpResponse).to.have.status(200);
     })
   })
-//   describe('It\'s possible to save a match with inProgress status equal to true', async () => {
+  describe('It\'s possible to save a match with inProgress status equal to true', () => {
 
-//     chaiHttpResponse = await chai.request(app)
-//     .post('/matchs')
-//     .set('content-type', 'application/json')
-//     .set({
-//       homeTeam: 16,
-//       awayTeam: 8,
-//       homeTeamGoals: 2,
-//       awayTeamGoals: 2,
-//       inProgress: true
-//     });
+    const user = { homeTeam: 16,
+      awayTeam: 8,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true };
 
+    beforeEach (() => {
+      sinon.stub(Match, 'create').resolves({ id: 1, awayTeam: 8, homeTeam: 16, homeTeamGoals: 2, awayTeamGoals: 2, inProgress: true } as Match);
+    })
+    
+    afterEach(() => {
+      (Match.create as sinon.SinonStub).restore();
+    })
 
-//     it('When is success', () => {
-//       expect(chaiHttpResponse).to.be.an('object');
-//       expect(chaiHttpResponse).status(201);
-//       expect(chaiHttpResponse.body.homeTeam).to.equal(1);
-//       expect(chaiHttpResponse.body.homeTeamGoals).to.equal(16);
-//       expect(chaiHttpResponse.body.awayTeam).to.equal(8);
-//       expect(chaiHttpResponse.body.awayTeamGoals).to.equal(2);
-//       expect(chaiHttpResponse.body.inProgress).to.equal(true);
-//     })
-//   })
+    it('When is success', async () => {
+      chaiHttpResponse = await chai.request(app)
+    .post('/matchs')
+    .set('content-type', 'application/json')
+    .send(user);
+
+      expect(chaiHttpResponse).to.be.an('object');
+      expect(chaiHttpResponse).status(201);
+      expect(chaiHttpResponse.body.homeTeam).to.equal(16);
+      expect(chaiHttpResponse.body.homeTeamGoals).to.equal(2);
+      expect(chaiHttpResponse.body.awayTeam).to.equal(8);
+      expect(chaiHttpResponse.body.awayTeamGoals).to.equal(2);
+      expect(chaiHttpResponse.body.inProgress).to.equal(true);
+
+    });
+  });
   
 //   describe('It\'s not possible to save a match when is insert the same code for both clubs', async () => {
 
