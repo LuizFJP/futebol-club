@@ -96,25 +96,34 @@ describe('/matchs route success', () => {
     });
   });
   
-//   describe('It\'s not possible to save a match when is insert the same code for both clubs', async () => {
+  describe('It\'s not possible to save a match when is insert the same code for both clubs', () => {
 
-//       chaiHttpResponse = await chai.request(app)
-//     .post('/matchs')
-//     .set('content-type', 'application/json')
-//     .send({
-//       homeTeam: 16,
-//       awayTeam: 16,
-//       homeTeamGoals: 2,
-//       awayTeamGoals: 2,
-//       inProgress: true
-//     });
+    const user = { homeTeam: 16,
+      awayTeam: 16,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+      inProgress: true };
 
+    beforeEach (() => {
+      sinon.stub(Match, 'create').resolves({ id: 1, awayTeam: 8, homeTeam: 16, homeTeamGoals: 2, awayTeamGoals: 2, inProgress: true } as Match);
+    })
+    
+    afterEach(() => {
+      (Match.create as sinon.SinonStub).restore();
+    })
 
-//     it('When is success', () => {
-//       expect(chaiHttpResponse.body).status(401);
-//       expect(chaiHttpResponse.body).to.be('It is not possible to create a match with two equal teams');
-//     })
-//   })
+    it('When is success', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .post('/matchs')
+      .set('content-type', 'application/json')
+      .send(user);
+
+      console.log(chaiHttpResponse.body);
+      
+      // expect(chaiHttpResponse).status(401);
+      // expect(chaiHttpResponse.body).to.be('It is not possible to create a match with two equal teams');
+    })
+  })
 
 //   describe('It\'s not possible to save a match that doesn\'t exist in database', async () => {
 
