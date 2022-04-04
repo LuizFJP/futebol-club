@@ -1,4 +1,4 @@
-import { ILeader } from '../utils/interfaces';
+import { ILeader, IMatchs } from '../utils/interfaces';
 
 class Leader {
   private _team: {
@@ -26,6 +26,26 @@ class Leader {
       goalsOwn: 0,
       goalsBalance: 0,
       efficiency: 0 };
+  }
+
+  public countGoals(homeMatch: IMatchs[]) {
+    homeMatch.forEach((h: IMatchs) => {
+      this._team.goalsFavor += h.homeTeamGoals;
+      this._team.goalsOwn += h.awayTeamGoals;
+    });
+  }
+
+  public calculatePoints(homeMatch: IMatchs[]) {
+    homeMatch.forEach((h: IMatchs) => {
+      if (h.homeTeamGoals > h.awayTeamGoals) {
+        this._team.totalVictories += 1;
+        this._team.totalPoints += 3;
+      } else if (h.homeTeamGoals < h.awayTeamGoals) {
+        this._team.totalLosses += 1;
+      } else {
+        this._team.totalPoints += 1;
+      }
+    });
   }
 }
 

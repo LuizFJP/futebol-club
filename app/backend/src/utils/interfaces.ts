@@ -7,10 +7,10 @@ export interface IUser {
 }
 
 export interface IMatchs {
-  homeTeam?: number,
-  awayTeam?: number,
-  homeTeamGoals?: number,
-  awayTeamGoals?: number,
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
   inProgress?: boolean,
   message?: string,
   code?: number,
