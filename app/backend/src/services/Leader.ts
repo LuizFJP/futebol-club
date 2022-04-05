@@ -1,7 +1,7 @@
-import { ILeader, IMatchs } from '../utils/interfaces';
+import { HomeMatch, ILeaderBoardHome } from '../utils/interfaces';
 
 class Leader {
-  private _team: {
+  public team: {
     name: string,
     totalPoints: number,
     totalGames: number,
@@ -14,8 +14,8 @@ class Leader {
     efficiency: number,
   };
 
-  constructor(team: ILeader) {
-    this._team = {
+  constructor(team: ILeaderBoardHome) {
+    this.team = {
       name: team.clubName,
       totalPoints: 0,
       totalGames: team.homeMatch.length,
@@ -28,33 +28,38 @@ class Leader {
       efficiency: 0 };
   }
 
-  public countGoals(homeMatch: IMatchs[]) {
-    homeMatch.forEach((h: IMatchs) => {
-      this._team.goalsFavor += h.homeTeamGoals;
-      this._team.goalsOwn += h.awayTeamGoals;
+  public countGoals(homeMatch: HomeMatch[]) {
+    homeMatch.forEach((h: HomeMatch) => {
+      this.team.goalsFavor += h.homeTeamGoals;
+      this.team.goalsOwn += h.awayTeamGoals;
     });
   }
 
-  public calculatePoints(homeMatch: IMatchs[]) {
-    homeMatch.forEach((h: IMatchs) => {
+  public calculatePoints(homeMatch: HomeMatch[]) {
+    homeMatch.forEach((h: HomeMatch) => {
       if (h.homeTeamGoals > h.awayTeamGoals) {
-        this._team.totalVictories += 1;
-        this._team.totalPoints += 3;
+        this.team.totalVictories += 1;
+        this.team.totalPoints += 3;
       } else if (h.homeTeamGoals < h.awayTeamGoals) {
-        this._team.totalLosses += 1;
+        this.team.totalLosses += 1;
       } else {
-        this._team.totalPoints += 1;
-        this._team.totalDraws += 1;
+        this.team.totalPoints += 1;
+        this.team.totalDraws += 1;
       }
     });
   }
 
   public calculateGoalsBalance() {
-    this._team.goalsBalance = this._team.goalsFavor - this._team.goalsOwn;
+    this.team.goalsBalance = this.team.goalsFavor - this.team.goalsOwn;
   }
 
   public calculateEfficiency() {
-    this._team.efficiency = (this._team.totalPoints / (this._team.totalGames * 3)) * 100;
+    this.team.efficiency = parseFloat((
+      (this.team.totalPoints / (this.team.totalGames * 3)) * 100).toFixed(2));
+  }
+
+  public classification() {
+    return this.team;
   }
 }
 

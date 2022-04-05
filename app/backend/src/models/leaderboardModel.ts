@@ -1,3 +1,4 @@
+import { ILeaderBoardHome } from '../utils/interfaces';
 import Club from '../database/models/Clubs';
 import Match from '../database/models/Matchs';
 
@@ -7,7 +8,7 @@ class LeaderboadModel {
       { model: Match,
         as: 'homeMatch',
         where: { inProgress: false },
-      }] });
+      }] }) as unknown as ILeaderBoardHome[];
     return clubs;
   }
 }

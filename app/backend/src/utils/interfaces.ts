@@ -7,18 +7,13 @@ export interface IUser {
 }
 
 export interface IMatchs {
-  homeTeam: number,
-  awayTeam: number,
-  homeTeamGoals: number,
-  awayTeamGoals: number,
+  homeTeam?: number,
+  awayTeam?: number,
+  homeTeamGoals?: number,
+  awayTeamGoals?: number,
   inProgress?: boolean,
   message?: string,
   code?: number,
-}
-
-export interface IAllClubs {
-  id: number,
-  clubName: string
 }
 
 export interface ILeader {
@@ -32,4 +27,34 @@ export interface ILeader {
     goalsOwn: number,
     goalsBalance: number,
     efficiency: number }]
+}
+
+export interface HomeMatch {
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+}
+
+export interface IAllClubs {
+  id: number,
+  clubName: string
+}
+
+export interface ILeaderBoardHome extends IAllClubs {
+  homeMatch: HomeMatch[]
+}
+
+export interface IPuzzledMatch {
+  name: string;
+  totalPoints: number;
+  totalGames: number;
+  totalVictories: number;
+  totalDraws: number;
+  totalLosses: number;
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  efficiency: number;
 }
