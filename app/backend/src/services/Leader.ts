@@ -1,3 +1,4 @@
+import { totalmem } from 'os';
 import { ILeader, IMatchs } from '../utils/interfaces';
 
 class Leader {
@@ -44,7 +45,14 @@ class Leader {
         this._team.totalLosses += 1;
       } else {
         this._team.totalPoints += 1;
+        this._team.totalDraws += 1;
       }
+    });
+  }
+
+  public countGoalsFavor(homeMatch: IMatchs[]) {
+    homeMatch.forEach((h: IMatchs) => {
+      this._team.goalsFavor += h.homeTeamGoals;
     });
   }
 }
