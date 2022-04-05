@@ -52,6 +52,10 @@ class Leader {
   public calculateGoalsBalance() {
     this._team.goalsBalance = this._team.goalsFavor - this._team.goalsOwn;
   }
+
+  public calculateEfficiency() {
+    this._team.efficiency = (this._team.totalPoints / (this._team.totalGames * 3)) * 100;
+  }
 }
 
 export default Leader;
