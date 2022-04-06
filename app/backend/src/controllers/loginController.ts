@@ -6,6 +6,7 @@ class Login {
   public Service = LoginService;
 
   public static async login(req: Request, res: Response) {
+    console.log('entrou');
     const { email, password } = req.body;
     const user = await LoginService.loginService(email, password) as IUsera;
     const { token } = user;

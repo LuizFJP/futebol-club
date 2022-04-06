@@ -105,7 +105,7 @@ describe('/matchs route success', () => {
       inProgress: true };
 
     beforeEach (() => {
-      sinon.stub(Match, 'create').resolves({ id: 1, awayTeam: 8, homeTeam: 16, homeTeamGoals: 2, awayTeamGoals: 2, inProgress: true } as Match);
+      sinon.stub(Match, 'create').resolves({ id: 1, awayTeam: 16, homeTeam: 16, homeTeamGoals: 2, awayTeamGoals: 2, inProgress: true } as Match);
     })
     
     afterEach(() => {
@@ -118,10 +118,8 @@ describe('/matchs route success', () => {
       .set('content-type', 'application/json')
       .send(user);
 
-      console.log(chaiHttpResponse.body);
-      
-      // expect(chaiHttpResponse).status(401);
-      // expect(chaiHttpResponse.body).to.be('It is not possible to create a match with two equal teams');
+      expect(chaiHttpResponse).status(401);
+      expect(chaiHttpResponse.body.message).to.be.equal('It is not possible to create a match with two equal teams');
     })
   })
 
