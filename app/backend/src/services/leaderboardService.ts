@@ -2,7 +2,8 @@
 import leaderboardModel from '../models/leaderboardModel';
 import LeaderboadAwayModel from '../models/leaderboardAwayModel';
 import Leader from './Leader';
-import { ILeaderBoardHome, IPuzzledMatch } from '../utils/interfaces';
+import LeaderAway from './leaderAway';
+import { ILeaderBoardAway, ILeaderBoardHome, IPuzzledMatch } from '../utils/interfaces';
 
 class LeaderboardService {
   public static organize(a: IPuzzledMatch, b: IPuzzledMatch) {
@@ -38,16 +39,16 @@ class LeaderboardService {
   public static async createLeaderboardAway() {
     const clubs = await LeaderboadAwayModel.createLeaderboardModel();
 
-    // const calculateClubs = clubs.map((club) => {
-    //   const team = new Leader(club);
-    //   team.calculatePoints(club.homeMatch);
-    //   team.countGoals(club.homeMatch);
-    //   team.calculateGoalsBalance();
-    //   team.calculateEfficiency();
-    //   team.classification();
-    //   return team.team;
-    // });
-    // return calculateClubs.sort(LeaderboardService.organize);
+    const calculateClubs = clubs.map((club: ILeaderBoardAway) => {
+      const team = new LeaderAway(club);
+      team.calculatePoints(club.awayMatch);
+      team.countGoals(club.awayMatch);
+      team.calculateGoalsBalance();
+      team.calculateEfficiency();
+      team.classification();
+      return team.team;
+    });
+    return calculateClubs.sort(LeaderboardService.organize);
     return clubs;
   }
 }
