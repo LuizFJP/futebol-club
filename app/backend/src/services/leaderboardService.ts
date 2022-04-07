@@ -1,5 +1,6 @@
 // import Team from 'src/models/clubLeaderBoard';
 import leaderboardModel from '../models/leaderboardModel';
+import LeaderboadAwayModel from '../models/leaderboardAwayModel';
 import Leader from './Leader';
 import { ILeaderBoardHome, IPuzzledMatch } from '../utils/interfaces';
 
@@ -33,6 +34,23 @@ class LeaderboardService {
 
     return calculateClubs.sort(LeaderboardService.organize);
   }
+
+  public static async createLeaderboardAway() {
+    const clubs = await LeaderboadAwayModel.createLeaderboardModel();
+
+    // const calculateClubs = clubs.map((club) => {
+    //   const team = new Leader(club);
+    //   team.calculatePoints(club.homeMatch);
+    //   team.countGoals(club.homeMatch);
+    //   team.calculateGoalsBalance();
+    //   team.calculateEfficiency();
+    //   team.classification();
+    //   return team.team;
+    // });
+    return clubs;
+    // return calculateClubs.sort(LeaderboardService.organize);
+  }
+
 }
 
 export default LeaderboardService;

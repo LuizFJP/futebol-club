@@ -123,26 +123,25 @@ describe('/matchs route success', () => {
     })
   })
 
-//   describe('It\'s not possible to save a match that doesn\'t exist in database', async () => {
+  describe('It\'s not possible to save a match that doesn\'t exist in database', () => {
 
-//     chaiHttpResponse = await chai.request(app)
-//     .post('/matchs')
-//     .set('content-type', 'application/json')
-//     .send({
-//       homeTeam: 513,
-//       awayTeam: 16,
-//       homeTeamGoals: 2,
-//       awayTeamGoals: 2,
-//       inProgress: true
-//     });
-
-    
-//     it('When is success', () => {
-//       expect(chaiHttpResponse.body).status(401);
-//       expect(chaiHttpResponse.body).to.be('There is no team with such id!');
-//     });
-//   })
-// })
+    it('When is success', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .post('/matchs')
+      .set('content-type', 'application/json')
+      .send({
+        homeTeam: 513,
+        awayTeam: 16,
+        homeTeamGoals: 2,
+        awayTeamGoals: 2,
+        inProgress: true
+      });
+      
+      expect(chaiHttpResponse.body).status(401);
+      expect(chaiHttpResponse.body).to.be('There is no team with such id!');
+    });
+  })
+})
 
 // describe('Save matchs in /matchs/:id/finish route with inProgress as false value', () => {
 //   let chaiHttpResponse: Response;
@@ -216,4 +215,4 @@ describe('/matchs route success', () => {
 //       expect(chaiHttpResponse).status(200);
 //     })
 //   })
-})
+// })
