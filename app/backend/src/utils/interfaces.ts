@@ -29,7 +29,7 @@ export interface ILeader {
     efficiency: number }]
 }
 
-export interface HomeMatch {
+export interface IBoarder {
   homeTeam: number,
   awayTeam: number,
   homeTeamGoals: number,
@@ -43,7 +43,11 @@ export interface IAllClubs {
 }
 
 export interface ILeaderBoardHome extends IAllClubs {
-  homeMatch: HomeMatch[]
+  homeMatch: IBoarder[]
+}
+
+export interface ILeaderBoardAway extends IAllClubs {
+  awayMatch: IBoarder[]
 }
 
 export interface IPuzzledMatch {
