@@ -47,10 +47,9 @@ class LeaderboardService {
     //   team.classification();
     //   return team.team;
     // });
-    return clubs;
     // return calculateClubs.sort(LeaderboardService.organize);
+    return clubs;
   }
-
 }
 
 export default LeaderboardService;
