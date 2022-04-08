@@ -49,7 +49,6 @@ class LeaderboardService {
       return team.team;
     });
     return calculateClubs.sort(LeaderboardService.organize);
-    return clubs;
   }
 }
 

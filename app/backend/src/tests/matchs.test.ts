@@ -137,8 +137,8 @@ describe('/matchs route success', () => {
         inProgress: true
       });
       
-      expect(chaiHttpResponse.body).status(401);
-      expect(chaiHttpResponse.body).to.be('There is no team with such id!');
+      expect(chaiHttpResponse).status(401);
+      expect(chaiHttpResponse.body.message).to.be.equal('There is no team with such id!');
     });
   })
 })

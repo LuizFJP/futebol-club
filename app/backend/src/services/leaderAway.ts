@@ -30,8 +30,8 @@ class LeaderAway {
 
   public countGoals(awayMatch: IBoarder[]) {
     awayMatch.forEach((a: IBoarder) => {
-      this.team.goalsFavor += a.homeTeamGoals;
-      this.team.goalsOwn += a.awayTeamGoals;
+      this.team.goalsFavor += a.awayTeamGoals;
+      this.team.goalsOwn += a.homeTeamGoals;
     });
   }
 
