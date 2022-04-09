@@ -1,4 +1,3 @@
-// import Team from 'src/models/clubLeaderBoard';
 import leaderboardModel from '../models/leaderboardModel';
 import LeaderboadAwayModel from '../models/leaderboardAwayModel';
 import Leader from './Leader';
@@ -23,18 +22,17 @@ class LeaderboardService {
   public static async createLeaderboardService() {
     const clubs = await leaderboardModel.createLeaderboardModel();
 
-    // const calculateClubs = clubs.map((club: ILeaderBoardHome) => {
-    //   const team = new Leader(club);
-    //   team.calculatePoints(club.homeMatch);
-    //   team.countGoals(club.homeMatch);
-    //   team.calculateGoalsBalance();
-    //   team.calculateEfficiency();
-    //   team.classification();
-    //   return team.team;
-    // });
+    const calculateClubs = clubs.map((club: ILeaderBoardHome) => {
+      const team = new Leader(club);
+      team.calculatePoints(club.homeMatch);
+      team.countGoals(club.homeMatch);
+      team.calculateGoalsBalance();
+      team.calculateEfficiency();
+      team.classification();
+      return team.team;
+    });
 
-    // return calculateClubs.sort(LeaderboardService.organize);
-    return clubs;
+    return calculateClubs.sort(LeaderboardService.organize);
   }
 
   public static async createLeaderboardAway() {

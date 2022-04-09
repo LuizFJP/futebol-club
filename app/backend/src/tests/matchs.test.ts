@@ -5,13 +5,9 @@ import { Response } from 'superagent';
 import { app } from '../app';
 import inProgressTrue from '../utils/mocks/inProgressTrue';
 import inProgressFalse from '../utils/mocks/inProgressFalse';
-import User from '../database/models/Users';
+
 import Match from '../database/models/Matchs';
 import allMatchs from '../utils/mocks/allMatchs';
-import loginService from '../services/loginService';
-import LoginModel from '../models/loginModel';
-import LoginService from '../services/loginService';
-
 
 chai.use(chaiHttp);
 
