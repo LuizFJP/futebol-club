@@ -23,17 +23,18 @@ class LeaderboardService {
   public static async createLeaderboardService() {
     const clubs = await leaderboardModel.createLeaderboardModel();
 
-    const calculateClubs = clubs.map((club: ILeaderBoardHome) => {
-      const team = new Leader(club);
-      team.calculatePoints(club.homeMatch);
-      team.countGoals(club.homeMatch);
-      team.calculateGoalsBalance();
-      team.calculateEfficiency();
-      team.classification();
-      return team.team;
-    });
+    // const calculateClubs = clubs.map((club: ILeaderBoardHome) => {
+    //   const team = new Leader(club);
+    //   team.calculatePoints(club.homeMatch);
+    //   team.countGoals(club.homeMatch);
+    //   team.calculateGoalsBalance();
+    //   team.calculateEfficiency();
+    //   team.classification();
+    //   return team.team;
+    // });
 
-    return calculateClubs.sort(LeaderboardService.organize);
+    // return calculateClubs.sort(LeaderboardService.organize);
+    return clubs;
   }
 
   public static async createLeaderboardAway() {
