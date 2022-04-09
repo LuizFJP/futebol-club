@@ -2,5 +2,6 @@ bcryptjs
 @types/bcryptjs
 shelljs
 @types/shelljs
-cors
+cors@2.8.5
 @types/cors
+jest@27.4.3
