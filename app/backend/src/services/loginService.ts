@@ -20,8 +20,6 @@ export interface IUsera {
   token: string,
 }
 class LoginService {
-  private _UserModel = User;
-
   static lib = bcryptsjs;
 
   static _hash: boolean;
@@ -31,8 +29,9 @@ class LoginService {
     return this._hash;
   }
 
-  public async loginService(email: string, password: string): Promise<IError | IUsera> {
-    const user = await this._UserModel.loginModel(email);
+  public static async loginService(email: string, password: string): Promise<IError | IUsera> {
+    const user = await User.loginModel(email);
+
     if (!user) return { message: INCORRECT_EMAIL_PASSWORD, code: 401 };
     const hash = LoginService.convertPassword(password, user.password);
     if (!hash) return { message: INCORRECT_EMAIL_PASSWORD, code: 401 };
@@ -51,13 +50,13 @@ class LoginService {
     return result;
   }
 
-  public async loginValidateService(authorization: string) {
+  public static async loginValidateService(authorization: string) {
     const email = await getEmailFromToken(authorization);
-    const user = await this._UserModel.loginModel(email);
+    const user = await User.loginModel(email);
     if (!user) return { message: INCORRECT_EMAIL_PASSWORD, code: 401 };
 
     return user.role;
   }
 }
 
-export default new LoginService();
+export default LoginService;

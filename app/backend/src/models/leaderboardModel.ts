@@ -9,6 +9,7 @@ class LeaderboadModel {
         as: 'homeMatch',
         where: { inProgress: false },
       }] }) as unknown as ILeaderBoardHome[];
+    console.log(clubs);
     return clubs;
   }
 }

@@ -55,6 +55,7 @@ class MatchsModel {
   public async updateInProgressFalse(id: string) {
     await this._Match.update({ inProgress: false }, { where: { id } });
     const team = await this._Match.findByPk(id);
+
     return team;
   }
 

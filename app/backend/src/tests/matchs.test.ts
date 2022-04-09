@@ -8,6 +8,9 @@ import inProgressFalse from '../utils/mocks/inProgressFalse';
 import User from '../database/models/Users';
 import Match from '../database/models/Matchs';
 import allMatchs from '../utils/mocks/allMatchs';
+import loginService from '../services/loginService';
+import LoginModel from '../models/loginModel';
+import LoginService from '../services/loginService';
 
 
 chai.use(chaiHttp);
@@ -143,76 +146,94 @@ describe('/matchs route success', () => {
   })
 })
 
-// describe('Save matchs in /matchs/:id/finish route with inProgress as false value', () => {
-//   let chaiHttpResponse: Response;
-//   let loginResponse: Response;
+describe('Save matchs in /matchs/:id/finish route with inProgress as false value', () => {
+  let chaiHttpResponse: Response;
+  // let loginResponse: Response;
 
-//   before( async () => {
-//     sinon.stub(User, 'findOne').resolves({id: 5, username: 'juninho', role: 'dev', email: 'tidev@hacker.com', password: 'cachorro'} as User)
-//     loginResponse = await chai.request(app).post('/login').send({ email: 'tidev@hacker.com', password: 'cachorro'});
+  before(() => {
+    // sinon.stub(User, 'findOne').resolves({id: 5, username: 'juninho', role: 'dev', email: 'tidev@hacker.com', password: 'cachorro'} as User)
+    // sinon.stub(LoginModel, 'loginModel').resolves({
+    //   id: 1,
+    //   username: 'devin',
+    //   role: 'juninho',
+    //   email: 'tidev@hacker.com',
+    //   password: 'cachorro'
+    // } as User)
+    // sinon.stub(LoginService, 'convertPassword').resolves(true);
+    sinon.stub(Match, 'update').resolves();
+    sinon.stub(Match, 'findByPk').resolves({
+    id: 45,
+    homeTeam: 5,
+    homeTeamGoals: 1,
+    awayTeam: 3,
+    awayTeamGoals: 1,
+    inProgress: false} as Match);
+  });
 
-//     const { token } = loginResponse.body;
+  after(() => {
+    // (User.findOne as sinon.SinonStub).restore();
+    // (LoginModel.loginModel as sinon.SinonStub).restore();
+    // (LoginService.convertPassword as sinon.SinonStub).restore();
+    (Match.update as sinon.SinonStub).restore();
+    (Match.findByPk as sinon.SinonStub).restore();
+  });
 
-//     chaiHttpResponse = await chai.request(app)
-//   .patch('/matchs/49/finish')
-//   .set('content-type', 'application/json')
-//   .set('authorization', token);
+  it('When is success', async () => {
+    // loginResponse = await chai.request(app).post('/login').send({ email: 'tidev@hacker.com', password: 'cachorro'});
 
-//   });
+    // const { token } = loginResponse.body;
 
-//   after(() => {
-//     (User.findOne as sinon.SinonStub).restore();
-//   });
+    chaiHttpResponse = await chai.request(app)
+    .patch('/matchs/45/finish')
+    .set('content-type', 'application/json')
+    // .set('authorization', token);
+    
 
- 
+    expect(chaiHttpResponse).status(200);
+    expect(chaiHttpResponse.body).to.be.an('object');
+  })
+})
 
+describe('routes /matchs:id', () => {
+  let chaiHttpResponse: Response;
 
-//   it('When is success', () => {
-//     expect(chaiHttpResponse.body).status(200);
-//     expect(chaiHttpResponse.body).to.be.empty;
-//   })
-// })
+    describe('It\'s possible to update matchs in progress', () => {
 
-// describe('routes /matchs:id', () => {
-//   let chaiHttpResponse: Response;
+      before(() => {
+        sinon.stub(Match, 'update').resolves();
+        sinon.stub(Match, 'findByPk').resolves({
+        id: 45,
+        homeTeam: 3,
+        homeTeamGoals: 3,
+        awayTeam: 3,
+        awayTeamGoals: 1,
+        inProgress: false} as Match);
+      });
 
-//   before( async () => {
-//     sinon.stub(Match, 'create').resolves({ id: 500, homeTeam: 2, homeTeamGoals: 6, awayTeam: 7, awayTeamGoals: 9, inProgress: true} as Match);
-//   })
+      after(() => {
+        (Match.update as sinon.SinonStub).restore();
+        (Match.findByPk as sinon.SinonStub).restore();
+      })
 
-//   after(() => {
-//     (User.create as sinon.SinonStub).restore()
-//   })
-//     describe('It\'s possible to update matchs in progress', () => {
+    it('is possible update number of goals while match is in progress', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .patch('/matchs/45')
+      .set('content-type', 'application/json')
+      .send({ homeTeamGoals: 3, awayTeamGoals: 1});
 
-//     before( async () => {
-//       sinon.stub(Match, 'create').resolves({ id: 500, homeTeam: 2, homeTeamGoals: 6, awayTeam: 7, awayTeamGoals: 9, inProgress: false} as Match);
-//       chaiHttpResponse = await chai.request(app)
-//       .patch('/matchs/500')
-//       .set('content-type', 'application/json')
-//       .send({ homeTeamGoals: 3, awayTeamGoals: 1});
-//     })
-
-//     after(() => {
-//       (User.create as sinon.SinonStub).restore()
-//     })
-
-//     it('is possible update number of goals while match is in progress', () => {
-//       expect(chaiHttpResponse.body.homeTeamGoals).to.be.equal(3);
-//       expect(chaiHttpResponse.body.awayTeamGoals).to.be.equal(1);
-//       expect(chaiHttpResponse).status(200);
-//     })
-//   });
-//   describe('It\'s possible to finish matchs', () => {
-//     before(async () => {
-//       chaiHttpResponse = await chai.request(app)
-//     .patch('/matchs/500')
-//     .set('content-type', 'application/json');
-//     })
-
-//     it('When is success', () => {
-//       expect(chaiHttpResponse.body.inProgress).to.be.equal(true);
-//       expect(chaiHttpResponse).status(200);
-//     })
-//   })
-// })
+      expect(chaiHttpResponse.body.homeTeamGoals).to.be.equal(3);
+      expect(chaiHttpResponse.body.awayTeamGoals).to.be.equal(1);
+      expect(chaiHttpResponse).status(200);
+    })
+  });
+  // describe('It\'s possible to finish matchs', () => {
+    
+  //   it('When is success', async () => {
+  //     chaiHttpResponse = await chai.request(app)
+  //     .patch('/matchs/500')
+  //     .set('content-type', 'application/json');
+  //     expect(chaiHttpResponse.body.inProgress).to.be.equal(true);
+  //     expect(chaiHttpResponse).status(200);
+  //   })
+  // })
+})
