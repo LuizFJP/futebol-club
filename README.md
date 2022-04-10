@@ -1,4 +1,4 @@
-### Futebol Club
+# Futebol Club
 
 Um placar de partidas de futebol, integrando frontend e backend, com cobertura de testes de integração e aplicado o uso do Docker.
 
