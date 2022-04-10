@@ -10,3 +10,4 @@ back.eval
 trybe.yml
 .github/*
 trybe/*
+.env
