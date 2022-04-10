@@ -7,5 +7,6 @@ coverage
 front.eval
 back.eval
 .vscode
+trybe.yml
 .github/*
-.trybe/*
+trybe/*
